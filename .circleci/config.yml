@@ -11,7 +11,7 @@ jobs:
       # - DYLD_LIBRARY_PATH="$PWD/tmp-build/lib"
       - MK_DOCS="y"
       - BUILD_WHEELS=1
-      - LIBRDKAFKA_VERSION="1.8.2"
+      - LIBRDKAFKA_VERSION=1.8.2
     steps:
       - checkout
       - run: python3 --version
