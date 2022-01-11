@@ -1,0 +1,30 @@
+version: 2.1
+jobs:
+  linux-build:
+    docker: # run the steps with Docker
+      # CircleCI Go images available at: https://hub.docker.com/r/circleci/golang/
+      - image: circleci/python:3.8
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
+    environment:
+      # - DYLD_LIBRARY_PATH="$PWD/tmp-build/lib"
+      - MK_DOCS="y"
+      - BUILD_WHEELS=1
+      - LIBRDKAFKA_VERSION="v1.8.2"
+    steps:
+      - checkout
+      - run: python3 --version
+      - run: tools/wheels/build-wheels.sh ${LIBRDKAFKA_VERSION#v} wheelhouse
+
+  macos-build:
+    macos:
+      xcode: "9.2"
+    steps:
+      - run: echo "hello world macos"
+
+workflows:
+  doit:
+    jobs:
+      - linux-build
+      - macos-build
